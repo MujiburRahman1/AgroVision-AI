@@ -163,12 +163,20 @@ def fetch_faostat_data(domain, metric, item_code, country_code, start_year, end_
 
     try:
         years = list(range(start_year, end_year + 1))
-        df = faostat.get_data_df(
-            domain,
-            area_codes=[country_code],
-            item_codes=[item_code],
-            year_codes=years
-        )
+        try:
+            df = faostat.get_data_df(
+                domain,
+                [country_code],
+                [item_code],
+                years
+            )
+        except TypeError:
+            df = faostat.get_data_df(
+                domain,
+                area_codes=[country_code],
+                item_codes=[item_code],
+                year_codes=years
+            )
 
         if df is None or df.empty:
             st.warning("No data returned for the selected filters.")
