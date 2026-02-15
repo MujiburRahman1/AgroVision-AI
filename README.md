@@ -1,38 +1,35 @@
-# AgroVision-AI: FAOSTAT Agricultural Data Explorer
+# 🌾 AI-Driven Agricultural Intelligence Platform
 
-A Streamlit web app that simulates exploring FAOSTAT agricultural statistics
-by domain, commodity, country, and year range. The app generates realistic
-sample data for quick analysis and visualization.
+An intelligent agricultural analytics system built on FAOSTAT data that transforms raw global agricultural statistics into actionable AI-powered insights for researchers, students, policymakers, and development organizations.
 
-## Features
-- Filter by domain, metric, commodity, country, and year range
-- Key metrics cards with period change
-- Interactive table view
-- Time series chart and statistical insights
-- Export data to CSV and chart to PNG
+This platform allows users to explore agricultural production, trade, food security, prices, and emissions data through an interactive Streamlit dashboard. Users can filter by domain, commodity, country, and year range to generate structured visualizations and statistical summaries instantly.
 
-## Tech Stack
+Beyond visualization, the platform integrates Google Gemini AI to provide advanced analytical intelligence. Instead of just showing charts, the system generates professional-level economic analysis, identifies trends, highlights growth or decline patterns, evaluates volatility, and suggests possible economic, environmental, and policy-driven causes.
+
+The AI engine produces:
+- Key trend analysis
+- Statistical interpretation
+- Growth and volatility insights
+- Policy recommendations
+- Future outlook projections
+
+This transforms the application from a simple data explorer into a research assistant and policy intelligence tool.
+
+## Technology Stack
+- Python
 - Streamlit
+- FAOSTAT Data (API or Library Integration)
 - Pandas
-- Matplotlib
-- Seaborn
+- Plotly / Matplotlib
+- Google Gemini API
 
-## Getting Started
+## Core Architecture
+1. Data Ingestion Layer – Fetches structured agricultural data.
+2. Processing Layer – Cleans and summarizes data.
+3. AI Intelligence Layer – Uses Gemini to generate economic analysis.
+4. Visualization Layer – Interactive dashboards and export options.
 
-### Prerequisites
-- Python 3.9+
+## Impact
+By simplifying complex agricultural datasets and augmenting them with AI-driven reasoning, the platform empowers stakeholders to make informed decisions in food security planning, trade analysis, sustainability strategy, and economic forecasting.
 
-### Install
-1. Create and activate a virtual environment (recommended).
-2. Install dependencies:
-   `pip install -r requirements.txt`
-
-### Run
-`streamlit run app.py`
-
-## Notes
-- Data is simulated for demonstration purposes.
-- This app is a prototype and not affiliated with FAOSTAT.
-
-## License
-MIT License. See `LICENSE` for details.
+This project demonstrates how artificial intelligence can convert open global data into meaningful, interpretable, and decision-ready insights.
