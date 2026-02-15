@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # Title (no forced color)
-st.title("🌾 FAOSTAT Agricultural Data Explorer")
+st.title("🌾 AI-Driven Agricultural Intelligence Platform")
 st.markdown("Access global agricultural statistics from the UN Food and Agriculture Organization")
 
 # ==============================================
