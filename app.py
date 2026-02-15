@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import requests
-from io import StringIO
+import faostat
 import datetime as dt
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -155,56 +154,55 @@ with st.sidebar:
 
 @st.cache_data(ttl=24*3600)
 def fetch_faostat_data(domain, metric, item_code, country_code, start_year, end_year):
-    """Simulates FAOSTAT API call with realistic parameters"""
+    """Fetches FAOSTAT data using the faostat package"""
+    def get_column(dataframe, *candidates):
+        for name in candidates:
+            if name in dataframe.columns:
+                return dataframe[name]
+        return pd.Series([None] * len(dataframe))
+
     try:
-        # Generate realistic sample data
         years = list(range(start_year, end_year + 1))
-        base_value = {
-            "Production": 1000000,
-            "Yield": 30,
-            "Area Harvested": 50000,
-            "Import Quantity": 500000,
-            "Export Quantity": 300000,
-            "Value": 250000000,
-            "Food Supply": 2500,
-            "Dietary Energy Supply": 3000,
-            "Producer Price": 150,
-            "Consumer Price": 200,
-            "Emissions": 50000,
-            "Carbon Stock": 1000000
-        }.get(metric, 1000)
-        
-        # Create realistic trends
-        data = {
-            "Year": years,
-            "Value": [int(base_value * (1 + 0.02*(year - start_year)) * (0.95 + 0.1*(item_code%10)/10)) 
-                     for year in years],
-            "Unit": {
-                "Production": "tonnes",
-                "Yield": "hg/ha",
-                "Area Harvested": "ha",
-                "Import Quantity": "tonnes",
-                "Export Quantity": "tonnes",
-                "Value": "1000 US$",
-                "Food Supply": "kcal/capita/day",
-                "Dietary Energy Supply": "kcal/capita/day",
-                "Producer Price": "US$/tonne",
-                "Consumer Price": "US$/tonne",
-                "Emissions": "kt CO2eq",
-                "Carbon Stock": "kt C"
-            }.get(metric, "units"),
-            "Flag": ["Official" if year%2==0 else "Estimated" for year in years],
-            "Country": selected_country,
-            "Item": selected_commodity,
-            "Domain": selected_domain,
+        df = faostat.get_data_df(
+            domain,
+            area_codes=[country_code],
+            item_codes=[item_code],
+            year_codes=years
+        )
+
+        if df is None or df.empty:
+            st.warning("No data returned for the selected filters.")
+            return None
+
+        element_col = None
+        for candidate in ["element", "Element"]:
+            if candidate in df.columns:
+                element_col = candidate
+                break
+
+        if element_col:
+            df = df[df[element_col].astype(str).str.lower() == metric.lower()]
+            if df.empty:
+                st.warning("No data returned for the selected metric.")
+                return None
+
+        df_out = pd.DataFrame({
+            "Year": get_column(df, "year", "Year"),
+            "Value": get_column(df, "value", "Value"),
+            "Unit": get_column(df, "unit", "Unit"),
+            "Country": get_column(df, "area", "Area"),
+            "Item": get_column(df, "item", "Item"),
+            "Domain": domain,
             "Metric": metric
-        }
-        
-        df = pd.DataFrame(data)
-        return df
-    
+        })
+
+        df_out["Year"] = pd.to_numeric(df_out["Year"], errors="coerce")
+        df_out["Value"] = pd.to_numeric(df_out["Value"], errors="coerce")
+        df_out = df_out.sort_values("Year", ascending=True)
+        return df_out
+
     except Exception as e:
-        st.error(f"Error generating data: {str(e)}")
+        st.error(f"FAOSTAT fetch failed: {str(e)}")
         return None
 
 # ==============================================
