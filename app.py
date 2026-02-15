@@ -369,20 +369,5 @@ if 'faostat_data' in st.session_state:
 
 st.markdown("---")
 st.sidebar.caption(
-    "Built by [Muhammad Atif Latif](https://www.linkedin.com/in/muhammad-atif-latif-13a171318?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)"
-)
-linkedin = "https://raw.githubusercontent.com/M-Atif-Latif/kaggle/main/Data_Collection/FAO/images/linkedin.gif"
-kaggle = "https://raw.githubusercontent.com/M-Atif-Latif/kaggle/main/Data_Collection/FAO/images/kaggle.gif"
-share = "https://raw.githubusercontent.com/M-Atif-Latif/kaggle/main/Data_Collection/FAO/images/share.gif"
-
-st.sidebar.caption(
-    f"""
-        <div style='display: flex; align-items: center;'>
-            <a href = 'https://www.linkedin.com/in/muhammad-atif-latif-13a171318?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'><img src='{linkedin}' style='width: 35px; height: 35px; margin-right: 25px;'></a>
-            <a href = 'https://www.kaggle.com/muhammadatiflatif'><img src='{kaggle}' style='width: 28px; height: 28px; margin-right: 25px;'></a>
-            <a href = 'https://m-atif-latif.github.io/Atif_protfolio/'><img src='{share}' style='width: 28px; height: 28px; margin-right: 25px;'></a>
-        </div>
-    """, unsafe_allow_html=True)
-st.sidebar.caption(
     "This web app is a prototype and not affiliated with FAOSTAT. Data is simulated for demonstration purposes."
 )
